@@ -33,10 +33,6 @@ async function runApp() {
   startChecking()
   console.log('Checker started')
   // Middlewares
-  bot.use((ctx, next) => {
-    console.log(ctx.update)
-    return next()
-  })
   bot.use(sequentialize)
   bot.use(ignoreOldMessageUpdates)
   bot.use(attachChat)
@@ -46,12 +42,12 @@ async function runApp() {
   bot.command(['help', 'start'], sendHelp)
   bot.command('language', sendLanguage)
   bot.command('delete', handleDelete)
+  // Actions
+  bot.callbackQuery(/(s|u)~.+/, handleSubscribeAction)
+  bot.callbackQuery(/d~.+/, handleDeleteAction)
+  bot.callbackQuery(localeActions, setLanguage)
   // Text
   bot.on('msg:text', handleText)
-  // Actions
-  bot.callbackQuery(localeActions, setLanguage)
-  bot.callbackQuery(/(s|u)~.+/g, handleSubscribeAction)
-  bot.callbackQuery(/d~.+/g, handleDeleteAction)
   // Errors
   bot.catch(console.error)
   // Start bot
