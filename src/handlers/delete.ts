@@ -19,7 +19,7 @@ export async function handleDeleteAction(ctx: Context) {
   await ctx.answerCallbackQuery()
   const parts = ctx.callbackQuery.data.split('~')
   const username = parts[1]
-  await toggleSubscription(ctx.dbchat._id as string, username, false)
+  await toggleSubscription(ctx.dbchat, username, false)
   ctx.dbchat.subscriptions = ctx.dbchat.subscriptions.filter(
     (subscription) => subscription !== username
   )

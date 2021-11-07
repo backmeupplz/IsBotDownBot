@@ -1,21 +1,33 @@
-import { sendStartToBot } from '@/helpers/bot'
+import { Bot } from '@/models/Bot'
+import { Chat, findChatsSubscribedToBot } from '@/models/Chat'
+import { DocumentType } from '@typegoose/typegoose'
+import { InlineKeyboard } from 'grammy'
+import {
+  isBotBeingChecked,
+  markBotAsBeingChecked,
+  markBotAsNotBeingChecked,
+} from '@/helpers/botsBeingChecked'
+import { sendStartToBot } from '@/helpers/telegramClient'
 import { v4 as uuid } from 'uuid'
+import i18n from '@/helpers/i18n'
+import mainBot from '@/helpers/bot'
+import sendout from '@/helpers/sendout'
 
 const promisesMap: {
   [promiseId: string]: {
     res: (alive: boolean) => void
     createdAt: number
-    username: string
+    telegramId: number
   }
 } = {}
 
-const interval = 5000
+const intervalInSeconds = 5
 setInterval(() => {
   const now = Date.now()
   const promisesToRemove = []
   for (const promiseId in promisesMap) {
     const promise = promisesMap[promiseId]
-    if (now - promise.createdAt > interval) {
+    if (now - promise.createdAt > intervalInSeconds * 1000) {
       promisesToRemove.push(promiseId)
     }
   }
@@ -23,25 +35,114 @@ setInterval(() => {
     promisesMap[promiseId].res(false)
     delete promisesMap[promiseId]
   }
-}, interval)
+}, intervalInSeconds * 1000)
 
-export function checkBot(username: string) {
+export async function checkBotAndDoSendout(
+  bot: DocumentType<Bot>,
+  requester?: DocumentType<Chat>
+) {
+  // Obtain lock
+  if (isBotBeingChecked(bot.telegramId)) {
+    return Promise.resolve()
+  }
+  markBotAsBeingChecked(bot.telegramId)
+  // Check bot
+  try {
+    // Check if bot is alive
+    const isBotAlive = await checkBotInternal(bot.telegramId)
+    // Set last checked
+    bot.lastChecked = new Date()
+    if (isBotAlive && bot.isDown) {
+      // Set up status
+      bot.isDown = false
+      bot.downSince = undefined
+      await bot.save()
+      // Send status to requester
+      await sendStatusToRequester(bot, requester)
+      // Send status to other subscribers
+      const chats = await findChatsSubscribedToBot(bot)
+      await sendout(
+        chats,
+        'up',
+        {
+          username: bot.username,
+        },
+        [requester]
+      )
+    } else if (!isBotAlive && !bot.isDown) {
+      // Set down status
+      bot.isDown = true
+      bot.downSince = new Date()
+      await bot.save()
+      // Send status to requester
+      await sendStatusToRequester(bot, requester)
+      // Send status to other subscribers
+      const chats = await findChatsSubscribedToBot(bot)
+      await sendout(
+        chats,
+        'down',
+        {
+          username: bot.username,
+        },
+        [requester]
+      )
+    } else {
+      // Save last checked
+      await bot.save()
+      // Send status to requester even if it didn't change
+      await sendStatusToRequester(bot, requester)
+    }
+  } finally {
+    // Release lock
+    markBotAsNotBeingChecked(bot.telegramId)
+  }
+}
+
+async function sendStatusToRequester(
+  bot: DocumentType<Bot>,
+  requester?: DocumentType<Chat>
+) {
+  if (!requester) {
+    return
+  }
+  const keyboard = new InlineKeyboard()
+  const isSubscribed = requester.subscriptions.includes(bot.username)
+  keyboard.text(
+    i18n.t(requester.language, isSubscribed ? 'unsubscribe' : 'subscribe'),
+    `${isSubscribed ? 'u' : 's'}~${bot.username}`
+  )
+  try {
+    await mainBot.api.sendMessage(
+      requester.telegramId,
+      i18n.t(requester.language, bot.isDown ? 'down' : 'up', {
+        username: bot.username,
+      }),
+      {
+        reply_markup: keyboard,
+      }
+    )
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+function checkBotInternal(telegramId: number) {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise<boolean>(async (res) => {
     const promiseId = uuid()
     promisesMap[promiseId] = {
       res,
       createdAt: Date.now(),
-      username,
+      telegramId,
     }
-    await sendStartToBot(username)
+    await sendStartToBot(telegramId)
   })
 }
 
-export function verifyBotIsAlive(username: string) {
+export function verifyBotIsAlive(telegramId: number) {
   for (const promiseId in promisesMap) {
     const promise = promisesMap[promiseId]
-    if (promise.username.toLowerCase() === username.toLowerCase()) {
+    if (promise.telegramId === telegramId) {
       promise.res(true)
       delete promisesMap[promiseId]
     }

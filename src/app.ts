@@ -9,6 +9,7 @@ import { handleDelete, handleDeleteAction } from '@/handlers/delete'
 import { localeActions } from '@/handlers/language'
 import { run } from '@grammyjs/runner'
 import { sendLanguage, setLanguage } from '@/handlers/language'
+import { startTelegramClient } from '@/helpers/telegramClient'
 import attachChat from '@/middlewares/attachChat'
 import bot from '@/helpers/bot'
 import configureI18n from '@/middlewares/configureI18n'
@@ -26,6 +27,8 @@ async function runApp() {
   // Mongo
   await startMongo()
   console.log('Mongo connected')
+  // Telegram client
+  await startTelegramClient()
   // Checker
   startChecking()
   console.log('Checker started')

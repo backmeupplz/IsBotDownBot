@@ -6,7 +6,7 @@ export default async function handleSubscribeAction(ctx: Context) {
   const parts = ctx.callbackQuery.data.split('~')
   const subscribe = parts[0] === 's'
   const username = parts[1]
-  await toggleSubscription(ctx.dbchat._id as string, username, subscribe)
+  await toggleSubscription(ctx.dbchat, username, subscribe)
   return ctx.editMessageText(
     ctx.i18n.t(subscribe ? 'subscribed' : 'unsubscribed', { username })
   )
