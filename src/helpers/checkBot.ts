@@ -135,7 +135,11 @@ function checkBotInternal(telegramId: number) {
       createdAt: Date.now(),
       telegramId,
     }
-    await sendStartToBot(telegramId)
+    try {
+      await sendStartToBot(telegramId)
+    } catch (error) {
+      console.error(error)
+    }
   })
 }
 
