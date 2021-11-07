@@ -4,3 +4,7 @@ help: |
 language: Please, select the language.
 language_selected: I speak English now.
 no_username: Doesn't look like anything to me.
+up: |
+  @${username} is up and running.
+down: |
+  @${username} is down.

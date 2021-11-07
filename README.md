@@ -16,6 +16,8 @@ And you should be good to go! Feel free to fork and submit pull requests. Thanks
 
 - `TOKEN` — Telegram bot token
 - `MONGO` — URL of the mongo database
+- `TELEGRAM_API_ID` — see [the docs](https://painor.gitbook.io/gramjs/getting-started/authorization)
+- `TELEGRAM_API_HASH` — see [the docs](https://painor.gitbook.io/gramjs/getting-started/authorization)
 
 Also, please, consider looking at `.env.sample`.
 

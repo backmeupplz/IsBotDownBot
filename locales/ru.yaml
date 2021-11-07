@@ -4,3 +4,7 @@ help: |
 language: Пожалуйста, выберите язык.
 language_selected: Я теперь говорю по-русски.
 no_username: Это ни на что не похоже.
+up: |
+  @${username} работает.
+down: |
+  @${username} лежит.
