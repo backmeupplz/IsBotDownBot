@@ -1,5 +1,6 @@
 name: English
 help: |
-  I can check and notify you if bots go down. Simply send me a bot handle like @IsBotDownBot and I'll check if it's up. If you want to remove a subscription to a bot, just use the command /delete.
+  I can check and notify you if bots go down. Simply send me a bot handle like @IsBotDownBot and I'll check if it's up. If you want to remove a subscription to a bot, just use the command /delete. Use /language to change the language.
 language: Please, select the language.
 language_selected: I speak English now.
+no_username: Doesn't look like anything to me.
