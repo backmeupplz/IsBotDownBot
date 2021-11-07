@@ -26,7 +26,7 @@ export default async function sendout(
           }
           sentChatsMap.set(chat.telegramId, true)
           await bot.api.sendMessage(
-            chat.id as number,
+            chat.telegramId as number,
             i18n.t(chat.language, localizationKey, localizationObject)
           )
         } catch (error) {
