@@ -134,14 +134,19 @@ async function sendStatusToRequester(
 
 function checkBotInternal(telegramId: number) {
   // eslint-disable-next-line no-async-promise-executor
-  return new Promise<boolean>(async (res) => {
+  return new Promise<boolean>(async (res, rej) => {
     const promiseId = uuid()
     promisesMap[promiseId] = {
       res,
       createdAt: Date.now(),
       telegramId,
     }
-    await sendStartToBot(telegramId)
+    try {
+      await sendStartToBot(telegramId)
+    } catch (error) {
+      delete promisesMap[promiseId]
+      rej(error)
+    }
   })
 }
 
