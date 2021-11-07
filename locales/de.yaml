@@ -1,0 +1,20 @@
+name: German
+help: |
+  Ich kann den online Status eines Bots überprüfen und verfolgen. Sende mir einfach einen Botnamen im Format @IsBotDownBot und ich prüfe, ob der Bot online ist. Möchtest du nicht mehr über den aktuellen Status eines Bots informiert werden, verwende /delete. Benutze /language um die Sprache zu ändern. Support: @borodutch_support.
+language: Bitte wähle eine Sprache.
+language_selected: Ich spreche nun Deutsch.
+no_username: Ich kann leider nichts finden.
+up: |
+  ✅ @${username} ist online und funktioniert.
+down: |
+  😱 @${username} scheint gerade nicht zu antworten.
+subscribed: |
+  Du hast @${username} aboniert. Du erhälst nun Benachrichtigungen, falls @${username} offline bzw. wieder Online ist.
+unsubscribed: |
+  Du hast das Abo für @${username} beendet. Du bekommst keine Benachrichtigungen mehr über den Status von @${username}.
+subscribe: Abonieren
+unsubscribe: Nicht mehr Abonieren
+delete: Wähle einen Bot, den du nicht mehr abonieren möchtest.
+delete_no_bots: Aktuell folgst du keinem Bot.
+vanished: |
+  💨 @${username} ist verschwunden.
