@@ -1,3 +1,4 @@
+import { InlineKeyboard } from 'grammy'
 import { checkBot } from '@/helpers/checkBot'
 import { isUsernameBot } from '@/helpers/bot'
 import Context from '@/models/Context'
@@ -24,5 +25,13 @@ export default async function handleText(ctx: Context) {
     })
   }
   const isBotAlive = await checkBot(username)
-  return ctx.reply(ctx.i18n.t(isBotAlive ? 'up' : 'down', { username }))
+  const keyboard = new InlineKeyboard()
+  const isSubscribed = ctx.dbchat.subscriptions.includes(username)
+  keyboard.text(
+    ctx.i18n.t(isSubscribed ? 'unsubscribe' : 'subscribe'),
+    `${isSubscribed ? 'u' : 's'}~${username}`
+  )
+  return ctx.reply(ctx.i18n.t(isBotAlive ? 'up' : 'down', { username }), {
+    reply_markup: keyboard,
+  })
 }

@@ -8,3 +8,11 @@ up: |
   @${username} is up and running.
 down: |
   @${username} is down.
+subscribed: |
+  Subscribed to @${username}. You will now receive notifications when @${username} goes down or comes back up.
+unsubscribed: |
+  Unsubscribed from @${username}. You will no longer receive notifications when @${username} goes down or comes back up.
+subscribe: Subscribe
+unsubscribe: Unsubscribe
+delete: Select a bot below to remove from subscriptions.
+delete_no_bots: You haven't subscribed to any bots yet.

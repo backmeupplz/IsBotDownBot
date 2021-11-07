@@ -21,3 +21,14 @@ const ChatModel = getModelForClass(Chat, {
 export function findOrCreateChat(id: number) {
   return ChatModel.findOrCreate({ id })
 }
+
+export function toggleSubscription(
+  chatId: string,
+  username: string,
+  subscribe: boolean
+) {
+  return ChatModel.updateOne(
+    { _id: chatId },
+    { [subscribe ? '$push' : '$pull']: { subscriptions: username } }
+  )
+}

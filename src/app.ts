@@ -5,12 +5,14 @@ import 'module-alias/register'
 import * as dotenv from 'dotenv'
 dotenv.config({ path: `${__dirname}/../.env` })
 // Dependencies
+import { handleDelete, handleDeleteAction } from '@/handlers/delete'
 import { localeActions } from '@/handlers/language'
 import { run } from '@grammyjs/runner'
 import { sendLanguage, setLanguage } from '@/handlers/language'
 import attachChat from '@/middlewares/attachChat'
 import bot from '@/helpers/bot'
 import configureI18n from '@/middlewares/configureI18n'
+import handleSubscribeAction from '@/handlers/handleSubscribeAction'
 import handleText from '@/handlers/handleText'
 import i18n from '@/helpers/i18n'
 import ignoreOldMessageUpdates from '@/middlewares/ignoreOldMessageUpdates'
@@ -32,10 +34,13 @@ async function runApp() {
   // Commands
   bot.command(['help', 'start'], sendHelp)
   bot.command('language', sendLanguage)
+  bot.command('delete', handleDelete)
   // Text
   bot.on('msg:text', handleText)
   // Actions
   bot.callbackQuery(localeActions, setLanguage)
+  bot.callbackQuery(/(s|u)~.+/g, handleSubscribeAction)
+  bot.callbackQuery(/d~.+/g, handleDeleteAction)
   // Errors
   bot.catch(console.error)
   // Start bot
