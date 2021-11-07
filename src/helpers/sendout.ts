@@ -11,7 +11,9 @@ export default async function sendout(
   localizationObject?: Record<string, unknown>,
   chatsToExclude: DocumentType<Chat>[] = []
 ) {
-  const chatsToExcludeIds = chatsToExclude.map((chat) => chat.telegramId)
+  const chatsToExcludeIds = chatsToExclude
+    .filter((v) => !!v)
+    .map((chat) => chat.telegramId)
   const sentChatsMap = new Map<number, boolean>()
   while (chats.length) {
     const chatsToSend = chats.splice(0, sendOutStep)
