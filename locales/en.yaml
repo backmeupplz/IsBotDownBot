@@ -1,5 +1,5 @@
 name: English
 help: |
-  <b>This bot</b> allows you to see how Telegram bots can be built.
+  I can check and notify you if bots go down. Simply send me a bot handle like @IsBotDownBot and I'll check if it's up. If you want to remove a subscription to a bot, just use the command /delete.
 language: Please, select the language.
-language_selected: <b>This bot</b> now speaks English.
+language_selected: I speak English now.

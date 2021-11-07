@@ -1,9 +1,9 @@
 {
-  "name": "telegram-bot-starter",
+  "name": "is-bot-down-bot",
   "version": "1.0.0",
-  "description": "Telegram bot starter based on grammY",
+  "description": "Telegram bot that tracks the down status of other bots",
   "main": "dist/app.js",
-  "repository": "https://github.com/Borodutch/telegram-bot-template",
+  "repository": "https://github.com/backmeupplz/IsBotDownBot",
   "author": "backmeupplz <backmeupplz@gmail.com>",
   "license": "MIT",
   "private": false,

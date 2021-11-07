@@ -8,7 +8,7 @@ dotenv.config({ path: `${__dirname}/../.env` })
 import { localeActions } from '@/handlers/language'
 import { run } from '@grammyjs/runner'
 import { sendLanguage, setLanguage } from '@/handlers/language'
-import attachUser from '@/middlewares/attachUser'
+import attachChat from '@/middlewares/attachChat'
 import bot from '@/helpers/bot'
 import configureI18n from '@/middlewares/configureI18n'
 import i18n from '@/helpers/i18n'
@@ -25,7 +25,7 @@ async function runApp() {
   // Middlewares
   bot.use(sequentialize)
   bot.use(ignoreOldMessageUpdates)
-  bot.use(attachUser)
+  bot.use(attachChat)
   bot.use(i18n.middleware())
   bot.use(configureI18n)
   // Commands
