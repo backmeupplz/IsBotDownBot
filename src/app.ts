@@ -18,6 +18,7 @@ import i18n from '@/helpers/i18n'
 import ignoreOldMessageUpdates from '@/middlewares/ignoreOldMessageUpdates'
 import sendHelp from '@/handlers/sendHelp'
 import sequentialize from '@/middlewares/sequentialize'
+import startChecking from '@/helpers/checker'
 import startMongo from '@/helpers/startMongo'
 
 async function runApp() {
@@ -25,6 +26,9 @@ async function runApp() {
   // Mongo
   await startMongo()
   console.log('Mongo connected')
+  // Checker
+  startChecking()
+  console.log('Checker started')
   // Middlewares
   bot.use(sequentialize)
   bot.use(ignoreOldMessageUpdates)

@@ -5,9 +5,9 @@ language: Please, select the language.
 language_selected: I speak English now.
 no_username: Doesn't look like anything to me.
 up: |
-  @${username} is up and running.
+  ✅ @${username} is up and running.
 down: |
-  @${username} is down.
+  😱 @${username} is down.
 subscribed: |
   Subscribed to @${username}. You will now receive notifications when @${username} goes down or comes back up.
 unsubscribed: |
@@ -16,3 +16,5 @@ subscribe: Subscribe
 unsubscribe: Unsubscribe
 delete: Select a bot below to remove from subscriptions.
 delete_no_bots: You haven't subscribed to any bots yet.
+vanished: |
+  💨 @${username} vanished.

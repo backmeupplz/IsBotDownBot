@@ -15,10 +15,10 @@ const storeSession = new StoreSession('telegram_session')
 async function eventPrint(event: NewMessageEvent) {
   if (event.isPrivate) {
     const sender = await event.message.getSender()
-    if ('self' in sender && sender.self) {
+    if (sender && 'self' in sender && sender.self) {
       return
     }
-    if ('username' in sender && sender.username) {
+    if (sender && 'username' in sender && sender.username) {
       verifyBotIsAlive(sender.username)
     }
   }
