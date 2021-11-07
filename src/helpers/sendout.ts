@@ -11,14 +11,14 @@ export default async function sendout(
   localizationObject?: Record<string, unknown>,
   chatsToExclude: DocumentType<Chat>[] = []
 ) {
-  const chatsToExcludeIds = chatsToExclude.map((chat) => chat._id)
+  const chatsToExcludeIds = chatsToExclude.map((chat) => chat.telegramId)
   const sentChatsMap = new Map<number, boolean>()
   while (chats.length) {
     const chatsToSend = chats.splice(0, sendOutStep)
     await Promise.all(
       chatsToSend.map(async (chat) => {
         try {
-          if (chatsToExcludeIds.includes(chat.id as number)) {
+          if (chatsToExcludeIds.includes(chat.telegramId)) {
             return Promise.resolve()
           }
           if (sentChatsMap.has(chat.telegramId)) {
