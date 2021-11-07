@@ -1,4 +1,3 @@
-import { InlineKeyboard } from 'grammy'
 import { checkBotAndDoSendout } from '@/helpers/checkBot'
 import { findOrCreateBot } from '@/models/Bot'
 import Context from '@/models/Context'
