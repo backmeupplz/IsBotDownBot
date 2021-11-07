@@ -32,7 +32,11 @@ setInterval(() => {
     }
   }
   for (const promiseId of promisesToRemove) {
-    promisesMap[promiseId].res(false)
+    try {
+      promisesMap[promiseId].res(false)
+    } catch {
+      // Do nothing
+    }
     delete promisesMap[promiseId]
   }
 }, intervalInSeconds * 1000)
@@ -92,6 +96,8 @@ export async function checkBotAndDoSendout(
       // Send status to requester even if it didn't change
       await sendStatusToRequester(bot, requester)
     }
+  } catch (error) {
+    console.error(error)
   } finally {
     // Release lock
     markBotAsNotBeingChecked(bot.telegramId)
@@ -135,11 +141,7 @@ function checkBotInternal(telegramId: number) {
       createdAt: Date.now(),
       telegramId,
     }
-    try {
-      await sendStartToBot(telegramId)
-    } catch (error) {
-      console.error(error)
-    }
+    await sendStartToBot(telegramId)
   })
 }
 
