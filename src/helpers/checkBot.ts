@@ -26,21 +26,22 @@ setInterval(() => {
 }, interval)
 
 export function checkBot(username: string) {
-  return new Promise<boolean>((res) => {
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise<boolean>(async (res) => {
     const promiseId = uuid()
     promisesMap[promiseId] = {
       res,
       createdAt: Date.now(),
       username,
     }
-    return sendStartToBot(username)
+    await sendStartToBot(username)
   })
 }
 
 export function verifyBotIsAlive(username: string) {
   for (const promiseId in promisesMap) {
     const promise = promisesMap[promiseId]
-    if (promise.username === username) {
+    if (promise.username.toLowerCase() === username.toLowerCase()) {
       promise.res(true)
       delete promisesMap[promiseId]
     }
