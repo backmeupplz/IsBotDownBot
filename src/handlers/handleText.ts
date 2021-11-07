@@ -23,7 +23,8 @@ export default async function handleText(ctx: Context) {
     if (!isBot) {
       return replyWithError(ctx)
     }
-  } catch {
+  } catch (error) {
+    console.error(error)
     return replyWithError(ctx)
   }
   const isBotAlive = await checkBot(username)
