@@ -33,6 +33,10 @@ async function runApp() {
   startChecking()
   console.log('Checker started')
   // Middlewares
+  bot.use((ctx, next) => {
+    console.log(ctx.update)
+    return next()
+  })
   bot.use(sequentialize)
   bot.use(ignoreOldMessageUpdates)
   bot.use(attachChat)
