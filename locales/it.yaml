@@ -1,0 +1,20 @@
+name: Italiano
+help: |
+  Posso controllare ad avvisarti se un bot è in funzione. Semplicemente mandami il nome del bot tipo @IsBotDownBot e controlleró se é funzionante. Se vuoi rimuovere l'iscrizione alle notifiche da un bot, usa il comando /delete. Usa /language per cambiare la lingua.
+language: Sei pregato di selezionare una lingua.
+language_selected: Ora parlo italiano.
+no_username: Non ho trovato nulla con questo nome.
+up: |
+  ✅ @${username} é in funzione.
+down: |
+  😱  @${username} non é in funzione.
+subscribed: |
+  Iscritto a @${username}. Ora riceverai una notifica quando @${username} torna in funzione o smette di funzionare.
+unsubscribed: |
+  Disiscritti @${username}. Non riceverai piú notifiche quando @${username} torna o smette di essere in funzione.
+subscribe: Iscriviti
+unsubscribe: Disiscriviti
+delete: Seleziona un bot da cui disiscriverti.
+delete_no_bots: Non sei ancora iscritto a nessun bot.
+vanished: |
+  💨 @${username} é scomparso.
