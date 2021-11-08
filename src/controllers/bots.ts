@@ -3,11 +3,13 @@ import {
   Controller,
   Ctx,
   Get,
-  IsNumber,
+  IsInt,
   IsString,
   Max,
+  Min,
   Params,
   Query,
+  Type,
 } from 'amala'
 import { DocumentType } from '@typegoose/typegoose'
 import { notFound } from '@hapi/boom'
@@ -19,9 +21,12 @@ class UsernameParams {
 }
 
 class ListQuery {
-  @IsNumber()
+  @Type(() => Number)
+  @IsInt()
+  @Min(0)
   skip: number
-  @IsNumber()
+  @Type(() => Number)
+  @IsInt()
   @Max(100)
   limit: number
 }
@@ -33,16 +38,13 @@ function stripBot(bot: DocumentType<Bot>) {
 @Controller('/bots')
 export default class BotsController {
   @Get('/')
-  async bots(@Query({ required: true }) { skip, limit }: ListQuery) {
+  async bots(@Query() { skip, limit }: ListQuery) {
     const bots = await getBots().skip(skip).limit(limit)
     return bots.map(stripBot)
   }
 
   @Get('/:username')
-  async username(
-    @Ctx() ctx,
-    @Params({ required: true }) { username }: UsernameParams
-  ) {
+  async username(@Ctx() ctx, @Params() { username }: UsernameParams) {
     const bot = await findBotByUsername(
       username.replace(/^@/, '').toLowerCase().trim()
     )
