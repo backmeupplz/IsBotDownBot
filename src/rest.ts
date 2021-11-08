@@ -16,10 +16,10 @@ async function startRest() {
       controllers: [__dirname + '/controllers/*'],
       disableVersioning: true,
     })
-    rest.use(cors({ origin: '*' }))
+    rest.use(cors({ origin: '*' }) as Koa.Middleware)
     rest.use(bodyParser())
-    rest.use(router.routes())
-    rest.use(router.allowedMethods())
+    rest.use(router.routes() as Koa.Middleware)
+    rest.use(router.allowedMethods() as Koa.Middleware)
     const port = process.env.PORT || 1337
     rest.listen(port, () => {
       console.log(`Rest server listening on port ${port}`)

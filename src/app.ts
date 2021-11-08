@@ -21,6 +21,7 @@ import sendHelp from '@/handlers/sendHelp'
 import sequentialize from '@/middlewares/sequentialize'
 import startChecking from '@/helpers/checker'
 import startMongo from '@/helpers/startMongo'
+import startRest from '@/rest'
 
 async function runApp() {
   console.log('Starting app...')
@@ -29,6 +30,8 @@ async function runApp() {
   console.log('Mongo connected')
   // Telegram client
   await startTelegramClient()
+  // Rest server
+  await startRest()
   // Checker
   startChecking()
   console.log('Checker started')
