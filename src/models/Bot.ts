@@ -1,7 +1,11 @@
 import * as findorcreate from 'mongoose-findorcreate'
+import {
+  DocumentType,
+  getModelForClass,
+  plugin,
+  prop,
+} from '@typegoose/typegoose'
 import { FindOrCreate } from '@typegoose/typegoose/lib/defaultClasses'
-import { Types } from 'mongoose'
-import { getModelForClass, plugin, prop } from '@typegoose/typegoose'
 
 @plugin(findorcreate)
 export class Bot extends FindOrCreate {
@@ -30,8 +34,8 @@ export function getBots() {
   return BotModel.find({})
 }
 
-export function deleteBot(id: Types.ObjectId) {
-  return BotModel.findByIdAndDelete(id)
+export function deleteBot(bot: DocumentType<Bot>) {
+  return BotModel.findByIdAndDelete(bot._id)
 }
 
 export function findBotByUsername(username: string) {

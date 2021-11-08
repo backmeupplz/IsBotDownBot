@@ -1,5 +1,9 @@
-import { Bot } from '@/models/Bot'
-import { Chat, findChatsSubscribedToBot } from '@/models/Chat'
+import { Bot, deleteBot } from '@/models/Bot'
+import {
+  Chat,
+  findChatsSubscribedToBot,
+  removeAllSubscriptionsToBot,
+} from '@/models/Chat'
 import { DocumentType } from '@typegoose/typegoose'
 import { InlineKeyboard } from 'grammy'
 import {
@@ -98,9 +102,13 @@ export async function checkBotAndDoSendout(
     }
   } catch (error) {
     if (error.message.includes('INPUT_USER_DEACTIVATED')) {
-      // TODO: vanish bot
-    }
-    if (requester) {
+      const chats = await findChatsSubscribedToBot(bot)
+      await sendout(requester ? [...chats, requester] : chats, 'vanished', {
+        username: bot.username,
+      })
+      await removeAllSubscriptionsToBot(bot)
+      await deleteBot(bot)
+    } else if (requester) {
       try {
         await mainBot.api.sendMessage(
           requester.telegramId,
