@@ -18,3 +18,5 @@ delete: Select a bot below to remove from subscriptions.
 delete_no_bots: You haven't subscribed to any bots yet.
 vanished: |
   💨 @${username} vanished.
+error: |
+  💥 An error occurred getting @${username}. Please, try again later.

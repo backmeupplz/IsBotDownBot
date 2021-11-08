@@ -18,3 +18,5 @@ delete: Wähle einen Bot, den du nicht mehr abonieren möchtest.
 delete_no_bots: Aktuell folgst du keinem Bot.
 vanished: |
   💨 @${username} ist verschwunden.
+error: |
+  💥 Ein Fehler ist aufgetreten beim Abrufen von @${username}. Bitte versuche es später erneut.

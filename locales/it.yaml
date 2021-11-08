@@ -18,3 +18,5 @@ delete: Seleziona un bot da cui disiscriverti.
 delete_no_bots: Non sei ancora iscritto a nessun bot.
 vanished: |
   💨 @${username} é scomparso.
+error: |
+  💥 Si è verificato un errore durante il recupero di @${username}. Riprova piú tardi.

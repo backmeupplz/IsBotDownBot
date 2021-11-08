@@ -97,6 +97,19 @@ export async function checkBotAndDoSendout(
       await sendStatusToRequester(bot, requester)
     }
   } catch (error) {
+    if (error.message.includes('INPUT_USER_DEACTIVATED')) {
+      // TODO: vanish bot
+    }
+    if (requester) {
+      try {
+        await mainBot.api.sendMessage(
+          requester.telegramId,
+          i18n.t(requester.language, 'error', { username: bot.username })
+        )
+      } catch (sendMainBotError) {
+        console.log(sendMainBotError.message)
+      }
+    }
     console.error(error.message)
   } finally {
     // Release lock
