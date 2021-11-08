@@ -97,7 +97,7 @@ export async function checkBotAndDoSendout(
       await sendStatusToRequester(bot, requester)
     }
   } catch (error) {
-    console.error(error)
+    console.error(error.message)
   } finally {
     // Release lock
     markBotAsNotBeingChecked(bot.telegramId)
