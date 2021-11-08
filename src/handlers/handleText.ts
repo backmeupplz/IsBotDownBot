@@ -14,7 +14,7 @@ export default async function handleText(ctx: Context) {
   if (!match || !match[1]) {
     return replyWithError(ctx)
   }
-  const username = match[1]
+  const username = match[1].toLowerCase()
   await ctx.replyWithChatAction('typing')
   try {
     const { isBot, telegramId } = await isUsernameBot(username)
