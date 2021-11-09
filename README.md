@@ -26,11 +26,11 @@ Also, please, consider looking at `.env.sample`.
 
 You can also access API at https://backend.isbotdown.com. Available routes are:
 
-#### GET `?skip={skip}&limit={limit}`
+#### GET `/bots?skip={skip}&limit={limit}`
 
 Returns a paginated list of bots with their statuses.
 
-#### GET `/{bot_username}`
+#### GET `/bots/{bot_username}`
 
 Returs the status of the bot with the given username. You can pass usernames with or without the `@` prefix.
 
