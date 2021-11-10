@@ -25,7 +25,7 @@ const promisesMap: {
   }
 } = {}
 
-const intervalInSeconds = 5
+const intervalInSeconds = 10
 setInterval(() => {
   const now = Date.now()
   const promisesToRemove = []
