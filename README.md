@@ -34,6 +34,10 @@ Returns a paginated list of bots with their statuses.
 
 Returs the status of the bot with the given username. You can pass usernames with or without the `@` prefix.
 
+#### GET `/audience/{bot_username}`
+
+Returns audience info from [@TrueCheckerBot](https://t.me/TrueCheckerBot) and [@botspulsebot](https://t.me/botspulsebot).
+
 ## CI/CD
 
 `main` branch get automatically deployed to [@IsBotDownBot](https://t.me/IsBotDownBot) via [ci-ninja](https://github.com/backmeupplz/ci-ninja).

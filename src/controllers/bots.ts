@@ -4,7 +4,6 @@ import {
   Ctx,
   Get,
   IsInt,
-  IsString,
   Max,
   Min,
   Params,
@@ -14,11 +13,7 @@ import {
 import { DocumentType } from '@typegoose/typegoose'
 import { notFound } from '@hapi/boom'
 import { pick } from 'lodash'
-
-class UsernameParams {
-  @IsString()
-  username: string
-}
+import UsernameParams from '@/validators/UsernameParams'
 
 class ListQuery {
   @Type(() => Number)
