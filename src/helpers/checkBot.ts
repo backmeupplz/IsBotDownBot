@@ -11,7 +11,10 @@ import {
   markBotAsBeingChecked,
   markBotAsNotBeingChecked,
 } from '@/helpers/botsBeingChecked'
-import { sendStartToBot } from '@/helpers/telegramClient'
+import {
+  sendStartToBot,
+  sendStartToBotByUsername,
+} from '@/helpers/telegramClient'
 import { v4 as uuid } from 'uuid'
 import i18n from '@/helpers/i18n'
 import mainBot from '@/helpers/bot'
@@ -57,7 +60,14 @@ export async function checkBotAndDoSendout(
   // Check bot
   try {
     // Check if bot is alive
-    const isBotAlive = await checkBotInternal(bot.telegramId)
+    const isBotAlive = await checkBotInternal(
+      bot.telegramId,
+      bot.fetchedIdByUsername ? undefined : bot.username
+    )
+    if (!bot.fetchedIdByUsername) {
+      bot.fetchedIdByUsername = true
+      await bot.save()
+    }
     // Set last checked
     bot.lastChecked = new Date()
     if (isBotAlive && bot.isDown) {
@@ -153,7 +163,7 @@ async function sendStatusToRequester(
   }
 }
 
-function checkBotInternal(telegramId: number) {
+function checkBotInternal(telegramId: number, username?: string) {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise<boolean>(async (res, rej) => {
     const promiseId = uuid()
@@ -163,7 +173,11 @@ function checkBotInternal(telegramId: number) {
       telegramId,
     }
     try {
-      await sendStartToBot(telegramId)
+      if (username) {
+        await sendStartToBotByUsername(username)
+      } else {
+        await sendStartToBot(telegramId)
+      }
     } catch (error) {
       delete promisesMap[promiseId]
       rej(error)

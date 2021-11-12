@@ -51,6 +51,13 @@ export function sendStartToBot(id: number) {
   return client.sendMessage(id, { message: '/start' })
 }
 
+export function sendStartToBotByUsername(username: string) {
+  if (!client.connected) {
+    throw new Error('client not connected')
+  }
+  return client.sendMessage(username, { message: '/start' })
+}
+
 export function getEntityByUsername(username: string) {
   if (!client.connected) {
     throw new Error('client not connected')

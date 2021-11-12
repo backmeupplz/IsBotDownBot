@@ -19,6 +19,8 @@ export class Bot extends FindOrCreate {
   downSince?: Date
   @prop({ required: true, default: new Date() })
   lastChecked: Date
+  @prop({ required: true, default: true })
+  fetchedIdByUsername: boolean
 }
 
 const BotModel = getModelForClass(Bot, {
