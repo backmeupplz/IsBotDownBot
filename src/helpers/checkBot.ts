@@ -6,15 +6,12 @@ import {
 } from '@/models/Chat'
 import { DocumentType } from '@typegoose/typegoose'
 import { InlineKeyboard } from 'grammy'
+import { getEntityByUsername, sendStartToBot } from '@/helpers/telegramClient'
 import {
   isBotBeingChecked,
   markBotAsBeingChecked,
   markBotAsNotBeingChecked,
 } from '@/helpers/botsBeingChecked'
-import {
-  sendStartToBot,
-  sendStartToBotByUsername,
-} from '@/helpers/telegramClient'
 import { v4 as uuid } from 'uuid'
 import i18n from '@/helpers/i18n'
 import mainBot from '@/helpers/bot'
@@ -59,15 +56,14 @@ export async function checkBotAndDoSendout(
   markBotAsBeingChecked(bot.telegramId)
   // Check bot
   try {
-    // Check if bot is alive
-    const isBotAlive = await checkBotInternal(
-      bot.telegramId,
-      bot.fetchedIdByUsername ? undefined : bot.username
-    )
+    // Try to fix fetching id by username
     if (!bot.fetchedIdByUsername) {
+      await getEntityByUsername(bot.username)
       bot.fetchedIdByUsername = true
       await bot.save()
     }
+    // Check if bot is alive
+    const isBotAlive = await checkBotInternal(bot.telegramId)
     // Set last checked
     bot.lastChecked = new Date()
     if (isBotAlive && bot.isDown) {
@@ -163,7 +159,7 @@ async function sendStatusToRequester(
   }
 }
 
-function checkBotInternal(telegramId: number, username?: string) {
+function checkBotInternal(telegramId: number) {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise<boolean>(async (res, rej) => {
     const promiseId = uuid()
@@ -173,11 +169,7 @@ function checkBotInternal(telegramId: number, username?: string) {
       telegramId,
     }
     try {
-      if (username) {
-        await sendStartToBotByUsername(username)
-      } else {
-        await sendStartToBot(telegramId)
-      }
+      await sendStartToBot(telegramId)
     } catch (error) {
       delete promisesMap[promiseId]
       rej(error)
