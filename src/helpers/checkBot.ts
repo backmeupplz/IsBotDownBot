@@ -58,6 +58,9 @@ export async function checkBotAndDoSendout(
   try {
     // Try to fix fetching id by username
     if (!bot.fetchedIdByUsername) {
+      console.log(
+        `Fixing not being able to use entity for the bot ${bot.username}, ${bot.telegramId}`
+      )
       await getEntityByUsername(bot.username)
       bot.fetchedIdByUsername = true
       await bot.save()
