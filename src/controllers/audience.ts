@@ -25,9 +25,8 @@ export default class AudienceController {
       // Do nothing
     }
     try {
-      const hashedUsername = SHA1(username).toString()
       const { data } = await axios.get(
-        `https://chkr.botsbase.ru/api/v1/bots/${hashedUsername}`
+        `https://chkr.botsbase.ru/api/v1/bot/${username}`
       )
       result.botsBaseResult = data
     } catch {
