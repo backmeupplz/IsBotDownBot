@@ -28,7 +28,19 @@ const BotModel = getModelForClass(Bot, {
 })
 
 export async function findOrCreateBot(username: string, telegramId: number) {
-  const { doc } = await BotModel.findOrCreate({ username }, { telegramId })
+  let doc: DocumentType<Bot>
+  try {
+    const result = await BotModel.findOrCreate({ username }, { telegramId })
+    doc = result.doc
+  } catch (error) {
+    console.error(
+      "Couldn't do findOrCreate:",
+      error instanceof Error ? error.message : error
+    )
+    await BotModel.findByIdAndDelete(telegramId)
+    const result = await BotModel.findOrCreate({ username }, { telegramId })
+    doc = result.doc
+  }
   return doc
 }
 
