@@ -37,7 +37,7 @@ export async function findOrCreateBot(username: string, telegramId: number) {
       "Couldn't do findOrCreate:",
       error instanceof Error ? error.message : error
     )
-    await BotModel.findByIdAndDelete(telegramId)
+    await BotModel.findOneAndDelete({ telegramId })
     const result = await BotModel.findOrCreate({ username }, { telegramId })
     doc = result.doc
   }
