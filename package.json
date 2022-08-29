@@ -33,7 +33,7 @@
     "lodash": "^4.17.21",
     "mongoose": "6.0.12",
     "mongoose-findorcreate": "^3.0.0",
-    "telegram": "^1.9.6",
+    "telegram": "^2.10.10",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

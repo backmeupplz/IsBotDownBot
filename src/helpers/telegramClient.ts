@@ -22,7 +22,7 @@ async function eventHandler(event: NewMessageEvent) {
       return
     }
     if (sender && 'id' in sender && sender.id) {
-      verifyBotIsAlive(sender.id)
+      verifyBotIsAlive(Number(sender.id))
     }
   }
 }
