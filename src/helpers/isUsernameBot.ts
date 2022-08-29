@@ -33,7 +33,7 @@ export default async function isUsernameBot(username: string): Promise<{
   usernameCache[username] = {
     isBot,
     createdAt: Date.now(),
-    telegramId: entity.id,
+    telegramId: Number(entity.id),
   }
-  return { isBot, telegramId: entity.id }
+  return { isBot, telegramId: Number(entity.id) }
 }
