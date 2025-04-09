@@ -33,8 +33,8 @@ async function runApp() {
   // Rest server
   await startRest()
   // Checker
-  startChecking()
-  console.log('Checker started')
+  // startChecking()
+  // console.log('Checker started')
   // Middlewares
   bot.use(sequentialize)
   bot.use(ignoreOldMessageUpdates)
