@@ -36,9 +36,9 @@ export async function startTelegramClient() {
     { connectionRetries: 5 }
   )
   await client.start({
-    phoneNumber: async () => await input.text('number ?'),
-    password: async () => await input.text('password?'),
-    phoneCode: async () => await input.text('Code ?'),
+    phoneNumber: async () => process.env.PHONE_NUMBER,
+    password: async () => process.env.PASSWORD,
+    phoneCode: async () => process.env.CODE,
     onError: (err) => console.log(err),
   })
   client.addEventHandler(eventHandler, new NewMessage({}))
