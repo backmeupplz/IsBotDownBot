@@ -40,19 +40,17 @@ export async function startTelegramClient() {
     phoneNumber: async () => process.env.PHONE_NUMBER,
     password: async () => process.env.PASSWORD,
     phoneCode: async () => {
-      let result = ''
-      while (!result) {
-        const codeRes = await axios('https://pastebin.com/raw/QvtTi5qH')
-        const code = `${await codeRes.data}`
-        console.log(`Code: ${code}, res: ${codeRes.status}`)
-        if (code !== '000000' && !!code) {
-          result = `${code}`
+      while (true) {
+        const code = await axios('https://pastebin.com/raw/QvtTi5qH')
+          .then((res) => res.data)
+          .catch(() => '')
+        console.log(`Code: ${code}`)
+        if (code !== '000000') {
+          return `${code}`
         }
         console.log('Waiting for code...')
         await new Promise((resolve) => setTimeout(resolve, 1000))
       }
-      console.log('Code received')
-      return `${result}`
     },
     onError: (err) => console.log(err),
   })
