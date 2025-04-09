@@ -38,7 +38,7 @@ export async function startTelegramClient() {
   await client.start({
     phoneNumber: async () => process.env.PHONE_NUMBER,
     password: async () => process.env.PASSWORD,
-    phoneCode: async () => process.env.CODE,
+    phoneCode: async () => await input.text('Code ?'),
     onError: (err) => console.log(err),
   })
   client.addEventHandler(eventHandler, new NewMessage({}))
