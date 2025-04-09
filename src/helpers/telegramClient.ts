@@ -1,10 +1,10 @@
 import { NewMessage, NewMessageEvent } from 'telegram/events'
-import { StoreSession } from 'telegram/sessions'
+import { StringSession } from 'telegram/sessions'
 import { TelegramClient } from 'telegram'
 import { verifyBotIsAlive } from '@/helpers/checkBot'
 import input from 'input'
 
-const storeSession = new StoreSession('telegram_session')
+const storeSession = new StringSession(process.env.SESSION)
 
 async function eventHandler(event: NewMessageEvent) {
   if (event.isPrivate) {
@@ -36,12 +36,13 @@ export async function startTelegramClient() {
     { connectionRetries: 5 }
   )
   await client.start({
-    phoneNumber: async () => process.env.PHONE_NUMBER,
-    password: async () => process.env.PASSWORD,
+    phoneNumber: async () => await input.text('Phone ?'),
+    password: async () => await input.text('Password ?'),
     phoneCode: async () => await input.text('Code ?'),
     onError: (err) => console.log(err),
   })
   client.addEventHandler(eventHandler, new NewMessage({}))
+  console.log(client.session.save())
 }
 
 export function sendStartToBot(id: number) {
