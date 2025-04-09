@@ -46,7 +46,7 @@ export async function startTelegramClient() {
           .catch(() => '')
         console.log(`Code: ${code}`)
         if (code !== '000000') {
-          return code
+          return `${code}`
         }
         console.log('Waiting for code...')
         await new Promise((resolve) => setTimeout(resolve, 1000))
