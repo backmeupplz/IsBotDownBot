@@ -2,7 +2,6 @@ import { NewMessage, NewMessageEvent } from 'telegram/events'
 import { StoreSession } from 'telegram/sessions'
 import { TelegramClient } from 'telegram'
 import { verifyBotIsAlive } from '@/helpers/checkBot'
-import axios from 'axios'
 import input from 'input'
 
 const storeSession = new StoreSession('telegram_session')
@@ -39,19 +38,7 @@ export async function startTelegramClient() {
   await client.start({
     phoneNumber: async () => process.env.PHONE_NUMBER,
     password: async () => process.env.PASSWORD,
-    phoneCode: async () => {
-      while (true) {
-        const code = await axios('https://pastebin.com/raw/QvtTi5qH')
-          .then((res) => res.data)
-          .catch(() => '')
-        console.log(`Code: ${code}`)
-        if (code !== '000000') {
-          return `${code}`
-        }
-        console.log('Waiting for code...')
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-      }
-    },
+    phoneCode: async () => await input.text('Code ?'),
     onError: (err) => console.log(err),
   })
   client.addEventHandler(eventHandler, new NewMessage({}))
