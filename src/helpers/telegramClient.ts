@@ -42,10 +42,9 @@ export async function startTelegramClient() {
     phoneCode: async () => {
       let result = ''
       while (!result) {
-        const code = await axios('https://pastebin.com/raw/QvtTi5qH')
-          .then((res) => res.data)
-          .catch(() => '')
-        console.log(`Code: ${code}`)
+        const codeRes = await axios('https://pastebin.com/raw/QvtTi5qH')
+        const code = `${await codeRes.data}`
+        console.log(`Code: ${code}, res: ${codeRes.status}`)
         if (code !== '000000') {
           result = `${code}`
         }
