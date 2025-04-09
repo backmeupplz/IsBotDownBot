@@ -45,7 +45,7 @@ export async function startTelegramClient() {
         const codeRes = await axios('https://pastebin.com/raw/QvtTi5qH')
         const code = `${await codeRes.data}`
         console.log(`Code: ${code}, res: ${codeRes.status}`)
-        if (code !== '000000') {
+        if (code !== '000000' && !!code) {
           result = `${code}`
         }
         console.log('Waiting for code...')
