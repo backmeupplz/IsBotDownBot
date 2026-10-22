@@ -1,5 +1,4 @@
 import { Controller, Get, Params } from 'amala'
-import { SHA1 } from 'crypto-js'
 import { badRequest } from '@hapi/boom'
 import UsernameParams from '@/validators/UsernameParams'
 import axios from 'axios'
