@@ -20,7 +20,7 @@
     "@grammyjs/i18n": "^0.3.0",
     "@grammyjs/runner": "^1.0.2",
     "@hapi/boom": "^9.1.4",
-    "@koa/cors": "^3.1.0",
+    "@koa/cors": "^5.0.0",
     "@typegoose/typegoose": "^9.2.0",
     "amala": "^7.0.0",
     "axios": "^0.33.0",
