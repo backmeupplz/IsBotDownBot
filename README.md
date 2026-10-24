@@ -7,8 +7,8 @@ Code of the bot that tracks the up and down status of other bots.
 1. Clone this repo: `git clone https://github.com/backmeupplz/IsBotDownBot`
 2. Launch the [mongo database](https://www.mongodb.com/) locally
 3. Create `.env` with the environment variables listed below
-4. Run `yarn` in the root folder
-5. Run `yarn develop`
+4. Run `bun install` in the root folder
+5. Run `bun run develop`
 
 And you should be good to go! Feel free to fork and submit pull requests. Thanks!
 

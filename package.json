@@ -9,12 +9,12 @@
   "private": false,
   "scripts": {
     "distribute": "node dist/app.js",
-    "develop": "concurrently -k -i -p \"[{name}]\" -n \"Node,TypeScript\" -c \"yellow.bold,cyan.bold\" \"yarn watch-js\" \"yarn watch-ts\"",
+    "develop": "concurrently -k -i -p \"[{name}]\" -n \"Node,TypeScript\" -c \"yellow.bold,cyan.bold\" \"bun run watch-js\" \"bun run watch-ts\"",
     "build-ts": "tsc --skipLibCheck",
     "watch-ts": "tsc -w --skipLibCheck",
     "watch-js": "nodemon dist/app.js",
     "pretty": "prettier --check src",
-    "lint": "yarn pretty && eslint --max-warnings 0 --ext ts,tsx,json src"
+    "lint": "bun run pretty && eslint --max-warnings 0 --ext ts,tsx,json src"
   },
   "dependencies": {
     "@grammyjs/i18n": "^0.3.0",
