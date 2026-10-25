@@ -42,7 +42,8 @@ export async function startTelegramClient() {
     onError: (err) => console.log(err),
   })
   client.addEventHandler(eventHandler, new NewMessage({}))
-  console.log(client.session.save())
+  // Only a first interactive login needs the new session string (to put into SESSION); never log an existing one
+  if (!process.env.SESSION) console.log(client.session.save())
 }
 
 export function sendStartToBot(id: number) {
