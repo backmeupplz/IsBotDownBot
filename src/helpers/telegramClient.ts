@@ -46,6 +46,12 @@ export async function startTelegramClient() {
   if (!process.env.SESSION) console.log(client.session.save())
 }
 
+// Destroy, not disconnect: a disconnected client reconnects on its next ping. Two containers
+// connected with the same session at once risk AUTH_KEY_DUPLICATED
+export function stopTelegramClient() {
+  return client?.destroy()
+}
+
 export function sendStartToBot(id: number) {
   if (!client.connected) {
     throw new Error('client not connected')

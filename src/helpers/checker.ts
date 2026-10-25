@@ -1,4 +1,4 @@
-import { checkBotAndDoSendout } from '@/helpers/checkBot'
+import { checkBotAndDoSendout, stopResolvingChecks } from '@/helpers/checkBot'
 import { getBots } from '@/models/Bot'
 import delay from '@/helpers/delay'
 
@@ -6,9 +6,17 @@ const initialCheckTimeout = 5
 const checkingInterval = 10 * 60 // once every 10 minutes
 const checkStep = 10
 
+let timers: NodeJS.Timeout[] = []
 export default function startChecking() {
-  setTimeout(() => void check(), initialCheckTimeout * 1000)
-  setInterval(() => void check(), checkingInterval * 1000)
+  timers = [
+    setTimeout(() => void check(), initialCheckTimeout * 1000),
+    setInterval(() => void check(), checkingInterval * 1000),
+  ]
+}
+
+export function stopChecking() {
+  timers.forEach(clearTimeout)
+  stopResolvingChecks()
 }
 
 let checking = false

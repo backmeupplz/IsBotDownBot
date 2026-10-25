@@ -25,8 +25,17 @@ const promisesMap: {
   }
 } = {}
 
+// Set on shutdown: checks cut short by the client disconnecting must not mark bots as down
+let stopped = false
+export function stopResolvingChecks() {
+  stopped = true
+}
+
 const intervalInSeconds = 10
 setInterval(() => {
+  if (stopped) {
+    return
+  }
   const now = Date.now()
   const promisesToRemove = []
   for (const promiseId in promisesMap) {
