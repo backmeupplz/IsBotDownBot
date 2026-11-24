@@ -16,6 +16,8 @@ COPY package.json bun.lock ./
 RUN --mount=type=bind,from=bun,source=/usr/local/bin/bun,target=/usr/local/bin/bun \
   --mount=type=cache,target=/root/.bun/install/cache,sharing=locked \
   bun install --frozen-lockfile --production --backend=copyfile
+# The runtime only runs node; the npm bundled with node 22 carries CVEs Renovate can't bump, so drop it
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
 COPY locales locales
 COPY --from=build /app/dist dist
 ENV NODE_ENV=production
